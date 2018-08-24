@@ -3,7 +3,8 @@ public class Test01 {
 	public static void main(String[] args) {
 		for(int i=5; i>0; i--) {
 			
-			System.out.println("i : "+i+"ÃÊ");
+			System.out.println("i : "+i+"ÃƒÃŠ");
+			System.out.println("ì•ˆë…•í•˜ì„¸ìš”");
 			
 			try {
 				Thread.sleep(1000L);
@@ -13,6 +14,6 @@ public class Test01 {
 			}
 		}
 		
-		System.out.println("Á¾·á!");
+		System.out.println("ÃÂ¾Â·Ã¡!");
 	}
 }
