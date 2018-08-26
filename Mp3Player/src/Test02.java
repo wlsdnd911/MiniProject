@@ -1,18 +1,20 @@
 import java.awt.Color;
 
-import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JButton;
+import javax.swing.*;
+import java.awt.*;
 
-class JFrameEx extends JFrame{
+class JFrameEx2 extends JFrame{
 	
 	private JPanel panel =new JPanel(); 
 	
-	private JMenuBar bar = new JMenuBar();
+	private JToolBar toolBar = new JToolBar();
+	private JButton playButton = new JButton("재생");
+	private JButton pauseButton = new JButton("일시정지");
+	private JButton stopButton = new JButton("정지");
+	private JButton nextButton = new JButton("다음곡");
+	private JButton previousButton = new JButton("이전곡");
+	
+	private JMenuBar menuBar = new JMenuBar();
 	
 	private JMenu menu = new JMenu("메뉴");
 	private JMenuItem file = new JMenuItem("파일 열기");
@@ -35,20 +37,27 @@ class JFrameEx extends JFrame{
 //	화면 처리 기능
 	public void display() {
 		this.setContentPane(panel);
-		panel.setLayout(null);		
+		panel.setLayout(null);	
+		panel.add(toolBar);
+		
+		toolBar.add(playButton);
+		toolBar.add(pauseButton);
+		toolBar.add(stopButton);
+		toolBar.add(nextButton);
+		toolBar.add(previousButton);
 		
 	}
 	
 //	메뉴 구현 기능
 	public void menu() {
-		this.setJMenuBar(bar);
-		bar.setOpaque(true);
-		bar.setBackground(Color.PINK);
+		this.setJMenuBar(menuBar);
+		menuBar.setOpaque(true);
+		menuBar.setBackground(Color.PINK);
 		
-		bar.add(menu);
-		bar.add(playback);
-		bar.add(edit);
-		bar.add(help);
+		menuBar.add(menu);
+		menuBar.add(playback);
+		menuBar.add(edit);
+		menuBar.add(help);
 		
 		menu.add(file);
 		menu.add(folder);
@@ -79,7 +88,7 @@ class JFrameEx extends JFrame{
 	}
 
 //	생성자
-	JFrameEx(){
+	JFrameEx2(){
 		this.display();
 		this.menu();
 		this.event();
@@ -92,8 +101,8 @@ class JFrameEx extends JFrame{
 	}
 }
 
-public class Test01 {
+public class Test02 {
 	public static void main(String[] args) {
-		JFrameEx frame = new JFrameEx();
+		JFrameEx2 frame2 = new JFrameEx2();
 	}
 }
