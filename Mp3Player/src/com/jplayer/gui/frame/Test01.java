@@ -1,3 +1,4 @@
+package com.jplayer.gui.frame;
 import java.awt.Color;
 
 import javax.swing.JFrame;
