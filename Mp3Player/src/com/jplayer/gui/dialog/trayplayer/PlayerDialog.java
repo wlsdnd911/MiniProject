@@ -1,14 +1,7 @@
-package com.jplayer.gui.dialog.player;
-
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
+package com.jplayer.gui.dialog.trayplayer;
 
 import javax.swing.JDialog;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-
-import com.jplayer.gui.frame.FrameMain;
 
 /**
  * relative window

@@ -1,17 +1,12 @@
 package com.jplayer.gui.frame;
 
 import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.event.AncestorEvent;
-import javax.swing.event.AncestorListener;
 
-import com.jplayer.gui.body.InitialPanel;
-import com.jplayer.gui.head.DisplayPanel;
-import com.jplayer.gui.head.SliderPanel;
+import com.jplayer.gui.frame.head.DisplayPanel;
+import com.jplayer.gui.frame.head.SliderPanel;
 
 public class MainFrame extends JFrame {
 	

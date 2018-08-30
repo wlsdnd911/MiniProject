@@ -1,4 +1,4 @@
-package com.jplayer.gui.dialog.player;
+package com.jplayer.gui.dialog.trayplayer;
 
 import javax.swing.JPanel;
 
