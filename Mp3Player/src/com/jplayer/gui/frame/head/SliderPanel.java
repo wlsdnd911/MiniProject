@@ -1,4 +1,4 @@
-package com.jplayer.gui.head;
+package com.jplayer.gui.frame.head;
 
 import java.awt.Color;
 
