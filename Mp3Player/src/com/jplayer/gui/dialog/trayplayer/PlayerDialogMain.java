@@ -7,7 +7,7 @@ import javax.swing.JPanel;
  * relative window
  * @author Jeong Jin Ung
  */
-public class PlayerDialog extends JDialog {
+public class PlayerDialogMain extends JDialog {
 	
 	private JPanel mainPanel = new JPanel();
 	private JPanel infoP = new JPanel();
@@ -84,7 +84,7 @@ public class PlayerDialog extends JDialog {
 	/**
 	 * constructor
 	 */
-	public PlayerDialog() {
+	public PlayerDialogMain() {
 		
 		this.display();
 		this.event();
