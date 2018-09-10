@@ -56,7 +56,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener{
 		panel.setLayout(null);
 		
 //		Initiate Components
-		label = new JLabel("Title : ", JLabel.LEFT);
+		label = new JLabel("", JLabel.LEFT);
 		label.setBounds(320, 10, 500, 50);
 		panel.add(label);
 		
@@ -64,15 +64,15 @@ public class Frame extends JFrame implements ActionListener, MouseListener{
 		openBtn.setBounds(10, 10, 50, 50);
 		panel.add(openBtn);
 		
-		playBtn = new JButton("¢π");
+		playBtn = new JButton("‚ñ∑");
 		playBtn.setBounds(60, 10, 50, 50);
 		panel.add(playBtn);
 		
-		stopBtn = new JButton("°‡");
+		stopBtn = new JButton("‚ñ°");
 		stopBtn.setBounds(110, 10, 50, 50);
 		panel.add(stopBtn);
 		
-		prevBtn = new JButton("|¢∑");
+		prevBtn = new JButton("|‚óÅ");
 		prevBtn.setBounds(160, 10, 50, 50);
 		panel.add(prevBtn);
 
@@ -80,7 +80,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener{
 		pauseBtn.setBounds(210, 10, 50, 50);
 		panel.add(pauseBtn);
 		
-		nextBtn = new JButton("¢π|");
+		nextBtn = new JButton("‚ñ∑|");
 		nextBtn.setBounds(260, 10, 50, 50);
 		panel.add(nextBtn);
 		
@@ -89,7 +89,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener{
 		panel.add(jsp);
 	}
 	
-//	∏ﬁ¥∫ ±∏«ˆ ±‚¥…
+//	Î©îÎâ¥ Íµ¨ÌòÑ Í∏∞Îä•
 	public void menu() {
 		setJMenuBar(bar);
 		bar.add(file);
@@ -111,7 +111,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener{
 		help.add(info);
 	}
 	
-//	¿Ã∫•∆Æ √≥∏Æ ±‚¥…
+//	Ïù¥Î≤§Ìä∏ Ï≤òÎ¶¨ Í∏∞Îä•
 	public void event() {
 		openBtn.addActionListener(this);
 		playBtn.addActionListener(this);
@@ -122,12 +122,23 @@ public class Frame extends JFrame implements ActionListener, MouseListener{
 		add.addActionListener(this);
 		del.addActionListener(this);
 		exit.addActionListener(this);
+		
+		play.addActionListener(this);
+		pause.addActionListener(this);
+		stop.addActionListener(this);
+	}
+	
+	public void delete(int[] i) {
+		for(int j=i.length-1; j>=0; j--) {
+			fileList.remove(i[j]);
+			playList.remove(i[j]);
+		}
 	}
 
 	public void actionPerformed(ActionEvent e) {
 		// Add file(s)
 		if(e.getSource() == openBtn || e.getSource() == add) {
-			JFileChooser chooser = new JFileChooser(/*"C:\\Users\\¡§ººøµ\\Desktop\\¿Ωæ«\\OST\\The Post"*/);
+			JFileChooser chooser = new JFileChooser();
 			FileNameExtensionFilter filter = new FileNameExtensionFilter("MP3 file", "mp3");
 			chooser.setFileFilter(filter);
 			chooser.setMultiSelectionEnabled(true);
@@ -141,7 +152,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener{
 				for(int i=0; i<tmpFiles.length; i++) {
 					fileList.add(tmpFiles[i]);
 				}
-				System.out.println(fileList.size());
+// 				System.out.println(fileList.size());
 				
 				Iterator<File> it = fileList.iterator();
 				
@@ -152,12 +163,12 @@ public class Frame extends JFrame implements ActionListener, MouseListener{
 				}
 			}
 			list.setModel(playList);
-			System.out.println(playList.size());
+			System.out.println(playList.size()+" File(s) Selected!");
 		}
 		
 		// Delete file(s)
 		if(e.getSource() == del) {
-			
+			delete(list.getSelectedIndices());
 		}
 		
 		// Exit
@@ -186,12 +197,12 @@ public class Frame extends JFrame implements ActionListener, MouseListener{
 		// Developer info
 		if(e.getActionCommand().equals(info.getText())) {
 			JOptionPane.showMessageDialog(
-					this, "Version 1.0"+"\n Developer : Jeong Jinung, Chung Seyoung", "MP3 Player", JOptionPane.PLAIN_MESSAGE);
+					this, "Bean Mp3 Player v1.0"+"\n(C) Jeong Jinung, Chung Seyoung"+"@ KG ITbank mini project", "About our MP3 Player", JOptionPane.PLAIN_MESSAGE);
 		}
 	}
 	
 	public void mouseClicked(MouseEvent e) {	
-		if(e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 2) {
+		if(e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 1) {
 			index = list.locationToIndex(e.getPoint());
 			System.out.println(index);
 			playback.setIndex(index);
@@ -206,7 +217,7 @@ public class Frame extends JFrame implements ActionListener, MouseListener{
 
 	public void mouseReleased(MouseEvent arg0) {}
 	
-//	ª˝º∫¿⁄
+//	ÏÉùÏÑ±Ïûê
 	public Frame() {
 		display();
 		menu();
