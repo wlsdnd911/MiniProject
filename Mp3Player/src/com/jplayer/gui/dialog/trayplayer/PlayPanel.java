@@ -1,8 +1,12 @@
 package com.jplayer.gui.dialog.trayplayer;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowListener;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.Set;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -10,149 +14,96 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import com.jplayer.util.Mp3Manager;
+import com.jplayer.gui.main.Main;
+import com.jplayer.util.MusicPlay;
+import com.jplayer.util.MusicPlay;
 
+import javafx.scene.media.MediaPlayer;
 import javazoom.jl.player.Player;
 import javazoom.jl.player.advanced.AdvancedPlayer;
 import javazoom.jl.player.advanced.PlaybackEvent;
 import javazoom.jl.player.advanced.PlaybackListener;
 
 /**
- * previous, play, next, album icon 
+ * previous, play, next, album icon
+ * 
  * @author Jeong Jin Ung
  */
-public class PlayPanel extends JPanel{
-	
+public class PlayPanel extends JPanel {
+
 	private JButton previousBtn;
 	private JButton playBtn;
+	private JButton stopBtn;
 	private JButton nextBtn;
 	private JLabel albumIconLb;
 	
-	private Player player;
-	private FileInputStream fis;
-	private BufferedInputStream bis;
-	private File songFile;
-	private int pauseOnFrame = 0;
-	
-	Mp3Manager manager = new Mp3Manager();
-	
+	private MusicPlay mp = new MusicPlay();
+
+
 	public void display() {
 //		setBackground(Color.red);
 		setLayout(null);
-		
-		previousBtn = new JButton("previous");
+
+		previousBtn = new JButton("▼");
 		previousBtn.setBounds(0, 0, 60, 23);
 		add(previousBtn);
-		
-		playBtn = new JButton("play");
+
+		playBtn = new JButton("▷");
 		playBtn.setBounds(15, 0, 60, 23);
 		add(playBtn);
 		
-		nextBtn = new JButton("next");
+		stopBtn = new JButton("∥");
+		stopBtn.setBounds(15, 0, 60, 23);
+		add(stopBtn);
+		stopBtn.setVisible(false);
+
+		nextBtn = new JButton("□");
 		nextBtn.setBounds(30, 0, 60, 23);
 		add(nextBtn);
-		
+
 		albumIconLb = new JLabel("albumIcon");
 		albumIconLb.setBounds(45, 0, 79, 80);
 		add(albumIconLb);
 	}
-	
-	Runnable playStart = new Runnable() {
-		@Override
-		public void run() {
-			try {
-				JFileChooser chooser = new JFileChooser();
-				chooser.setDialogTitle("choose song to loading...");
-				chooser.showOpenDialog(null);//파일열기 창
-				songFile = chooser.getSelectedFile();//선택한 파일 가져오기
-//				System.out.println("songFile : " + songFile);
-				
-				AdvancedPlayer p = new AdvancedPlayer(new FileInputStream(songFile));
-				
-				//파일의 이름이 .mp3로 끝나지 않으면 에러 메시지 표시
-				if(!songFile.getName().endsWith(".mp3")) {
-					JOptionPane.showMessageDialog(
-							null, "Error", "Invalid File Type Selected!", JOptionPane.ERROR_MESSAGE);
-				}
-				p.play();
-				System.out.println(p.getPlayBackListener());
-				
-			} catch(Exception noFile) {
-				noFile.printStackTrace();
-			}
-			
-		}
-	};
 
-	
 	public void event() {
 		
-		Thread play = new Thread(playStart);
-		
-		previousBtn.addActionListener(e->{
-			System.out.println("이전음악");
-			System.out.println(e.getSource());
-			if(e.getSource() == previousBtn) {
-//				이전음악 재생
-			}
-		});
-		
-		/**
-		 * 음악 재생
-		 */
 		playBtn.addActionListener(e->{
-			if(e.getSource() == playBtn) {
-				play.start();
-			}
-			try {
-				AdvancedPlayer p = new AdvancedPlayer(new FileInputStream(songFile));
-				//포즈 했을때 프레임 저장
-				p.setPlayBackListener(new PlaybackListener() {
-					@Override
-					public void playbackFinished(PlaybackEvent event) {
-						pauseOnFrame = event.getFrame();
-						System.out.println(pauseOnFrame);
-					}
-				});
-				p.stop();
-			} catch (Exception e1) {
-				e1.printStackTrace();
-			}
-			
-			
-			
-		});//evnet
-		
-		playBtn.addActionListener(button->{
-			if(button.getActionCommand().equals(playBtn.getText())){//액션커맨드와  버튼의 글씨가 같으면
-				playBtn.setText("stop");
-			}
-			
-			if(button.getActionCommand().equals(playBtn.getText())) {//앤션커맨드와 버튼의 글씨가 다르면
-				playBtn.setText("play");
-			}
+			this.playStart();
 		});
 		
-		
-		
+		stopBtn.addActionListener(e->{
+			this.playPause();
+		});
 		
 		nextBtn.addActionListener(e->{
-			System.out.println("다음곡");
+			this.playClose();
 		});
+		
+//		previousBtn.addActionListener(e->{
+//			mp.getFile();
+//			
+//		});
+		
 	}
 	
-	//constructor
+	// constructor
 	public PlayPanel() {
 		this.display();
 		this.event();
 	}
-
+	
+	//setter, getter
 	public JButton getPreviousBtn() {
 		return previousBtn;
 	}
 
 	public JButton getPlayBtn() {
 		return playBtn;
+	}
+
+	public JButton getStopBtn() {
+		return stopBtn;
 	}
 
 	public JButton getNextBtn() {
@@ -162,6 +113,39 @@ public class PlayPanel extends JPanel{
 	public JLabel getAlbumIconLb() {
 		return albumIconLb;
 	}
-		
-}
 
+	public MusicPlay getMp() {
+		return mp;
+	}
+	
+	//method
+	
+	public void playStart() {
+//		chooser = new JFileChooser();
+//		chooser.showOpenDialog(null);
+//		songFile = chooser.getSelectedFile();
+		File songFile = new File("powerup.mp3");
+		mp.setFile(songFile);
+		mp.firstPlay();
+		mp.setPlay(true);
+		playBtn.setVisible(false);
+		stopBtn.setVisible(true);
+	}
+	
+	public void playPause() {
+		mp.setPlay(true);
+		mp.pause();
+		mp.setPlay(true);
+		stopBtn.setVisible(false);
+		playBtn.setVisible(true);
+	}
+	
+	public void playClose() {
+		if(mp.getFile() != null) {
+			mp.playerClosed();
+			stopBtn.setVisible(false);
+			playBtn.setVisible(true);
+		}
+	}
+	
+}
